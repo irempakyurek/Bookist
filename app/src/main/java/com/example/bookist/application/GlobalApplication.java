@@ -20,7 +20,7 @@ public class GlobalApplication extends Application {
 
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
-                .name("booksmine.realm")
+                .name("bookist.realm")
                 .deleteRealmIfMigrationNeeded()
                 .build();
 

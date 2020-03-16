@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Bookist</string>
-
+    <string name="app_name">BooksMine</string>
     <string name="hint_search">Search</string>
 
     <string name="msg_error_search_books">Problem looking for books.</string>
@@ -34,8 +33,4 @@
     </string-array>
     <string name="about_diagram_title">Architecture Diagram</string>
     <string name="about_diagram_subtitle">(Click twice to Zoom In)</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
 </resources>

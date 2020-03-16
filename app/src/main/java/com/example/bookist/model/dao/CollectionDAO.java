@@ -46,10 +46,7 @@ public class CollectionDAO implements CollectionMVP.Model {
     public Observable<RealmResults<RealmBook>> getCollection() {
         this.openRealm();
 
-        return this.realm
-                .where(RealmBook.class)
-                .findAll()
-                .asObservable();
+        return  Observable.just(this.realm.where(RealmBook.class).findAll());
     }
 
     @Override

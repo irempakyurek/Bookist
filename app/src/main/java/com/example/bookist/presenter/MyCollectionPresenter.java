@@ -1,5 +1,4 @@
 package com.example.bookist.presenter;
-
 import android.util.Log;
 
 import com.example.bookist.model.dao.CollectionDAO;
