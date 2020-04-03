@@ -18,12 +18,12 @@ public class GlobalApplication extends Application {
         super.onCreate();
         singleton = this;
 
-        Realm.init(this);
+        Realm.init(getApplicationContext());
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("bookist.realm")
                 .deleteRealmIfMigrationNeeded()
                 .build();
-
+        Realm realm = Realm.getInstance(config);
         Realm.setDefaultConfiguration(config);
     }
 

@@ -22,6 +22,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import io.realm.RealmResults;
 
 public class MyCollectionFragment extends Fragment
@@ -81,7 +83,7 @@ public class MyCollectionFragment extends Fragment
         if (this.realmBooks != null) {
 
             CollectionRecyclerViewAdapter adapter = new CollectionRecyclerViewAdapter(
-                    getActivity(), this.realmBooks, true, true,
+                    this.realmBooks,
                     realmBook -> {
                         if (getActivity() instanceof LongClickListener) {
                             LongClickListener listener = (LongClickListener) getActivity();
@@ -95,7 +97,8 @@ public class MyCollectionFragment extends Fragment
                         }
                     }
             );
-
+            this.binding.rvCollection.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+            //adapter.notifyDataSetChanged();
             this.binding.rvCollection.setAdapter(adapter);
         }
     }
@@ -103,6 +106,7 @@ public class MyCollectionFragment extends Fragment
     @Override
     public void removeBookFromMyCollection(RealmBook realmBook) {
         presenter.removeBook(realmBook);
+        updateGridView();
     }
 
     @Override

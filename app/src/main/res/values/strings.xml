@@ -5,9 +5,9 @@
     <string name="msg_error_search_books">Problem looking for books.</string>
     <string name="msg_warning_no_results">No results for text searched.</string>
 
-    <string name="format_authors">Autores: %1$s</string>
-    <string name="format_pages">Páginas: %1$d</string>
-    <string name="format_publish_date">Data de publicação: %1$s</string>
+    <string name="format_authors">Yazarlar: %1$s</string>
+    <string name="format_pages">Sayfa Sayısı: %1$d</string>
+    <string name="format_publish_date">Yayımlanma Tarihi: %1$s</string>
     <string name="bottom_add_collection">Add to Collection</string>
     <string name="msg_error_adding_collection">Problem adding to collection, try again later.</string>
     <string name="msg_success_adding_collection">Book added with sucess to collection!</string>
