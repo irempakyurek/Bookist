@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -14,10 +13,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.bookist.R;
 import com.example.bookist.model.pojo.Book;
@@ -27,21 +24,20 @@ import com.example.bookist.view.fragment.MyCollectionFragment;
 import com.example.bookist.view.listener.ClickListener;
 import com.example.bookist.view.listener.LongClickListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.parceler.Parcels;
 
 import androidx.appcompat.widget.Toolbar;
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener,
-        ClickListener, LongClickListener {
+        ClickListener, LongClickListener, NavigationView.OnNavigationItemSelectedListener{
 
     public static final String SEARCH_ACTIVE = "searchActive";
 
     private SearchView searchView;
     private MyCollectionFragment myCollectionFragment;
+    private DrawerLayout drawerLayout;
 
 
     @Override
@@ -54,24 +50,16 @@ public class MainActivity extends AppCompatActivity
         if (myToolbar != null) {
             setSupportActionBar(myToolbar);
         }
-/*
-        toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout, myToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);*/
 
     }
 
@@ -171,11 +159,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-/*        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }*/
+        }
 
 
         if (getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
@@ -190,25 +178,19 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-/*    @Override
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_item_one) {
-            Toast.makeText(getApplicationContext(), "Okunmuşları seçtiniz", Toast.LENGTH_SHORT).show();
-
-        } else if (id == R.id.nav_item_two) {
-            Toast.makeText(getApplicationContext(), "Şuanda okunanları seçtiniz.", Toast.LENGTH_SHORT).show();
-
-        } else if (id == R.id.nav_item_three) {
-            Toast.makeText(getApplicationContext(), "Okunmak istenenleri seçtiniz.", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.nav_alreadyRead:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list,
+                        new MyCollectionFragment()).commit();
+                break;
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }*/
+    }
+
 
 }

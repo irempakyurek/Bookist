@@ -97,9 +97,9 @@ public class MyCollectionFragment extends Fragment
                         }
                     }
             );
-            this.binding.rvCollection.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+            this.binding.alreadyReadRvCollection.setLayoutManager(new GridLayoutManager(requireContext(), 2));
             //adapter.notifyDataSetChanged();
-            this.binding.rvCollection.setAdapter(adapter);
+            this.binding.alreadyReadRvCollection.setAdapter(adapter);
         }
     }
 

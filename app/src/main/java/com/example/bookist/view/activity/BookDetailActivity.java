@@ -5,6 +5,9 @@ import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.bookist.R;
@@ -16,7 +19,7 @@ import com.example.bookist.presenter.AddCollectionPresenter;
 import org.parceler.Parcels;
 
 public class BookDetailActivity extends AppCompatActivity
-        implements CollectionMVP.AddView {
+        implements CollectionMVP.AddView, AdapterView.OnItemSelectedListener {
 
     public static final String BOOK_OBJECT = "bookObject";
 
@@ -38,6 +41,13 @@ public class BookDetailActivity extends AppCompatActivity
         if (!getIntent().getBooleanExtra(SEARCH_DETAIL, false)) {
             binding.btAddCollection.setVisibility(View.INVISIBLE);
         }
+
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.selection_status_for_book, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -63,4 +73,22 @@ public class BookDetailActivity extends AppCompatActivity
         presenter.closeRealm();
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = "Okunmuş";
+        String text2 = "Şuanda okunan";
+        String text3 = "Okunmak istenen";
+        if(position == 0){
+            Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+        }else if(position == 1){
+            Toast.makeText(parent.getContext(), text2, Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(parent.getContext(), text3, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCollection"
+            android:id="@+id/alreadyReadRvCollection"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="6dp"

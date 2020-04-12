@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BooksMine</string>
+    <string name="app_name">Bookist</string>
     <string name="hint_search">Search</string>
 
     <string name="msg_error_search_books">Problem looking for books.</string>
@@ -15,6 +15,10 @@
     <string name="dialog_title">Remove Book</string>
     <string name="dialog_message">Remove %s from your collection?</string>
     <string name="about_title"><![CDATA[Technologies (Frameworks & Libs)]]></string>
+
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+
     <string-array name="about_content_array">
         <item>- Data Binding</item>
         <item>- Google Books API</item>
@@ -33,4 +37,10 @@
     </string-array>
     <string name="about_diagram_title">Architecture Diagram</string>
     <string name="about_diagram_subtitle">(Click twice to Zoom In)</string>
+    
+    <string-array name="selection_status_for_book">
+        <item>Okunmuş</item>
+        <item>Şuanda Okunan</item>
+        <item>Okunmak İstenen</item>
+    </string-array>
 </resources>
