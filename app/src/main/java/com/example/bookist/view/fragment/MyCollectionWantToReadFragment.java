@@ -6,45 +6,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.bookist.R;
-import com.example.bookist.databinding.FragmentMyCollectionBinding;
-import com.example.bookist.model.realm.po.RealmBook;
-import com.example.bookist.mvp.CollectionMVP;
-import com.example.bookist.presenter.MyCollectionPresenter;
-import com.example.bookist.view.activity.MainActivity;
-import com.example.bookist.view.adapter.CollectionRecyclerViewAdapter;
-import com.example.bookist.view.listener.ClickListener;
-import com.example.bookist.view.listener.LongClickListener;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.example.bookist.R;
+import com.example.bookist.databinding.FragmentMyCollectionBinding;
+import com.example.bookist.databinding.FragmentMyWantToReadCollectionBinding;
+import com.example.bookist.model.realm.po.RealmBook;
+import com.example.bookist.model.realm.po.RealmBook3;
+import com.example.bookist.mvp.Collection3MVP;
+import com.example.bookist.mvp.CollectionMVP;
+import com.example.bookist.presenter.MyCollectionPresenter;
+import com.example.bookist.presenter.MyCollectionWantToReadPresenter;
+import com.example.bookist.view.activity.MainActivity;
+import com.example.bookist.view.adapter.CollectionRecyclerViewAdapter;
+import com.example.bookist.view.adapter.CollectionWantToReadRecyclerViewAdapter;
+import com.example.bookist.view.listener.ClickListener;
+import com.example.bookist.view.listener.LongClickListener;
+import com.example.bookist.view.listener.LongClickListener3;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import io.realm.RealmResults;
 
-public class MyCollectionFragment extends Fragment
-        implements CollectionMVP.GridView {
+public class MyCollectionWantToReadFragment extends Fragment
+        implements Collection3MVP.GridView {
 
-    private static CollectionMVP.GridView viewInstance;
-    private static CollectionMVP.GridPresenter presenter;
-    private RealmResults<RealmBook> realmBooks;
-    private FragmentMyCollectionBinding binding;
+    private static Collection3MVP.GridView viewInstance;
+    private static Collection3MVP.GridPresenter presenter;
+    private RealmResults<RealmBook3> realmBooks;
+    private FragmentMyWantToReadCollectionBinding binding;
 
-    public static MyCollectionFragment getViewInstance() {
+    public static MyCollectionWantToReadFragment getViewInstance() {
         if (viewInstance == null) {
-            viewInstance = new MyCollectionFragment();
+            viewInstance = new MyCollectionWantToReadFragment();
 
             if (presenter == null) {
-                presenter = new MyCollectionPresenter(viewInstance);
+                presenter = new MyCollectionWantToReadPresenter(viewInstance);
             }
         }
 
-        return (MyCollectionFragment) viewInstance;
+        return (MyCollectionWantToReadFragment) viewInstance;
     }
 
     @Override
@@ -58,11 +64,11 @@ public class MyCollectionFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(
                 inflater,
-                R.layout.fragment_my_collection,
+                R.layout.fragment_my_want_to_read_collection,
                 container,
                 false
         );
-        ((MainActivity) getActivity()).alreadyReadFragment = this;
+        ((MainActivity) getActivity()).wantToReadFragment = this;
         return binding.getRoot();
     }
 
@@ -74,7 +80,7 @@ public class MyCollectionFragment extends Fragment
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onEvent(RealmResults<RealmBook> realmBooks) {
+    public void onEvent(RealmResults<RealmBook3> realmBooks) {
         this.realmBooks = realmBooks;
         this.updateGridView();
     }
@@ -83,11 +89,11 @@ public class MyCollectionFragment extends Fragment
     public void updateGridView() {
         if (this.realmBooks != null) {
 
-            CollectionRecyclerViewAdapter adapter = new CollectionRecyclerViewAdapter(
+            CollectionWantToReadRecyclerViewAdapter adapter = new CollectionWantToReadRecyclerViewAdapter(
                     this.realmBooks,
                     realmBook -> {
                         if (getActivity() instanceof LongClickListener) {
-                            LongClickListener listener = (LongClickListener) getActivity();
+                            LongClickListener3 listener = (LongClickListener3) getActivity();
                             listener.onBookLongClick(realmBook);
                         }
                     },
@@ -98,14 +104,14 @@ public class MyCollectionFragment extends Fragment
                         }
                     }
             );
-            this.binding.alreadyReadRvCollection.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-            this.binding.alreadyReadRvCollection.setAdapter(adapter);
+            this.binding.wantToReadRvCollection.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+            this.binding.wantToReadRvCollection.setAdapter(adapter);
             //adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void removeBookFromMyCollection(RealmBook realmBook) {
+    public void removeBookFromMyCollection(RealmBook3 realmBook) {
         presenter.removeBook(realmBook);
         updateGridView();
     }

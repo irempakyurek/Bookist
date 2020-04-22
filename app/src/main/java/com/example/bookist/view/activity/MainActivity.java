@@ -19,32 +19,44 @@ import android.view.View;
 import com.example.bookist.R;
 import com.example.bookist.model.pojo.Book;
 import com.example.bookist.model.realm.po.RealmBook;
+import com.example.bookist.model.realm.po.RealmBook2;
+import com.example.bookist.model.realm.po.RealmBook3;
 import com.example.bookist.view.fragment.GoogleBooksListFragment;
 import com.example.bookist.view.fragment.MyCollectionFragment;
+import com.example.bookist.view.fragment.MyCollectionReadingFragment;
+import com.example.bookist.view.fragment.MyCollectionWantToReadFragment;
 import com.example.bookist.view.listener.ClickListener;
 import com.example.bookist.view.listener.LongClickListener;
+import com.example.bookist.view.listener.LongClickListener2;
+import com.example.bookist.view.listener.LongClickListener3;
 import com.google.android.material.navigation.NavigationView;
 
 import org.parceler.Parcels;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener,
-        ClickListener, LongClickListener, NavigationView.OnNavigationItemSelectedListener{
+        ClickListener, LongClickListener, LongClickListener2, LongClickListener3, NavigationView.OnNavigationItemSelectedListener{
 
     public static final String SEARCH_ACTIVE = "searchActive";
 
     private SearchView searchView;
     private MyCollectionFragment myCollectionFragment;
+    private MyCollectionReadingFragment myCollectionReadingFragment;
+    private MyCollectionWantToReadFragment myCollectionWantToReadFragment;
     private DrawerLayout drawerLayout;
-
+    public Fragment alreadyReadFragment, readingFragment, wantToReadFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DataBindingUtil.setContentView(this, R.layout.activity_main);
+        this.myCollectionReadingFragment = MyCollectionReadingFragment.getViewInstance();
         this.myCollectionFragment = MyCollectionFragment.getViewInstance();
+        this.myCollectionWantToReadFragment = MyCollectionWantToReadFragment.getViewInstance();
+
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         if (myToolbar != null) {
@@ -66,14 +78,31 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        this.showMyCollection();
+   //     this.showMyCollection();
     }
 
-    private void showMyCollection() {
+   private void showMyCollection() {
         if (!getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_list, myCollectionFragment, "myCollection")
+                    .commit();
+        }
+    }
+    private void showMyCollection2() {
+        if (!getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_list, myCollectionReadingFragment, "myCollection2")
+                    .commit();
+        }
+    }
+
+    private void showMyCollection3() {
+        if (!getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_list, myCollectionWantToReadFragment, "myCollection3")
                     .commit();
         }
     }
@@ -115,7 +144,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 getIntent().putExtra(SEARCH_ACTIVE, false);
-                showMyCollection();
+
+                if(alreadyReadFragment instanceof MyCollectionFragment) {
+                        showMyCollection();
+                }else if(readingFragment instanceof MyCollectionReadingFragment){
+                    showMyCollection2();
+                }else if(wantToReadFragment instanceof MyCollectionWantToReadFragment) {
+                    showMyCollection3();
+                }
                 return true;
 
             }
@@ -135,6 +171,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+
     @Override
     public void onBookLongClick(RealmBook realmBook) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
@@ -145,6 +182,41 @@ public class MainActivity extends AppCompatActivity
         String positiveText = getString(android.R.string.ok);
         builder.setPositiveButton(positiveText,
                 (dialog, which) -> myCollectionFragment.removeBookFromMyCollection(realmBook));
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void onBookLongClick(RealmBook2 realmBook2) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        builder.setTitle(getString(R.string.dialog_title));
+        builder.setMessage(String.format(
+                getString(R.string.dialog_message), realmBook2.getTitle()));
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                (dialog, which) -> myCollectionReadingFragment.removeBookFromMyCollection(realmBook2));
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    @Override
+    public void onBookLongClick(RealmBook3 realmBook3) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        builder.setTitle(getString(R.string.dialog_title));
+        builder.setMessage(String.format(
+                getString(R.string.dialog_message), realmBook3.getTitle()));
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                (dialog, which) -> myCollectionWantToReadFragment.removeBookFromMyCollection(realmBook3));
 
         String negativeText = getString(android.R.string.cancel);
         builder.setNegativeButton(negativeText, null);
@@ -165,25 +237,41 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
 
-
-        if (getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_list, myCollectionFragment, "myCollection")
-                    .commit();
-
-            getIntent().putExtra(SEARCH_ACTIVE, false);
-        } else {
-            super.onBackPressed();
-        }
+            if (getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
+                if(alreadyReadFragment instanceof MyCollectionFragment) {
+                    showMyCollection();
+                }else if(readingFragment instanceof MyCollectionReadingFragment){
+                    showMyCollection2();
+                }else if(wantToReadFragment instanceof MyCollectionWantToReadFragment){
+                    showMyCollection3();
+                }
+                getIntent().putExtra(SEARCH_ACTIVE, false);
+            } else {
+                super.onBackPressed();
+            }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_alreadyRead:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list,
-                        new MyCollectionFragment()).commit();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_list, myCollectionFragment, "myCollection")
+                            .commit();
+                    break;
+            case R.id.nav_reading:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_list, myCollectionReadingFragment, "myCollection2")
+                        .commit();
+
+                break;
+            case R.id.nav_wantToRead:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_list, myCollectionWantToReadFragment, "myCollection3")
+                        .commit();
                 break;
 
         }

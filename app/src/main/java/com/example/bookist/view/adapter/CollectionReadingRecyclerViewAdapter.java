@@ -1,35 +1,32 @@
 package com.example.bookist.view.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import com.example.bookist.R;
-import com.example.bookist.databinding.GridItemCollectionBinding;
-import com.example.bookist.model.pojo.Book;
-import com.example.bookist.model.realm.po.RealmBook;
-import com.example.bookist.model.realm.util.RealmUtil;
-import com.example.bookist.view.listener.ClickListener;
-import com.example.bookist.view.listener.LongClickListener;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import io.realm.RealmBasedRecyclerViewAdapter;
+import com.example.bookist.R;
+import com.example.bookist.databinding.GridItemReadingCollectionBinding;
+import com.example.bookist.model.pojo.Book;
+import com.example.bookist.model.realm.po.RealmBook2;
+import com.example.bookist.model.realm.util.RealmUtil2;
+import com.example.bookist.view.listener.ClickListener;
+import com.example.bookist.view.listener.LongClickListener2;
+
 import io.realm.RealmResults;
-import io.realm.RealmViewHolder;
 
-public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<CollectionRecyclerViewAdapter.ViewHolder> {
+public class CollectionReadingRecyclerViewAdapter extends RecyclerView.Adapter<CollectionReadingRecyclerViewAdapter.ViewHolder> {
 
-    private RealmResults<RealmBook> realmResults;
-    private LongClickListener longClickListener;
+    private RealmResults<RealmBook2> realmResults;
+    private LongClickListener2 longClickListener;
     private ClickListener clickListener;
 
-    public CollectionRecyclerViewAdapter(RealmResults<RealmBook> realmResults,
-                                         LongClickListener longClickListener,
-                                         ClickListener clickListener) {
+    public CollectionReadingRecyclerViewAdapter(RealmResults<RealmBook2> realmResults,
+                                                LongClickListener2 longClickListener,
+                                                ClickListener clickListener) {
         this.realmResults = realmResults;
         this.longClickListener = longClickListener;
         this.clickListener = clickListener;
@@ -38,9 +35,9 @@ public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<Collecti
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int holderPosition) {
-        GridItemCollectionBinding binding = DataBindingUtil.inflate(
+        GridItemReadingCollectionBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
-                R.layout.grid_item_collection,
+                R.layout.grid_item_reading_collection,
                 parent,
                 false
         );
@@ -60,7 +57,7 @@ public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<Collecti
         holder.itemView.setOnClickListener(view -> {
             if (clickListener != null) {
                 int position = holder.getAdapterPosition();
-                Book book = RealmUtil.convertPOBookToParcelableBook(getRealmBook(position));
+                Book book = RealmUtil2.convertPOBookToParcelableBook(getRealmBook(position));
                 clickListener.onBookClick(book, false);
             }
         });
@@ -68,9 +65,10 @@ public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<Collecti
         return holder;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RealmBook realmBook = realmResults.get(position);
+        RealmBook2 realmBook = realmResults.get(position);
 
         if ("".equals(realmBook.getPublishedDate())
                 || realmBook.getPublishedDate() == null)
@@ -85,15 +83,16 @@ public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<Collecti
         return realmResults != null ? realmResults.size() : 0;
        // return this.realmResults.size();
     }
-    private RealmBook getRealmBook(int position) {
+
+    private RealmBook2 getRealmBook(int position) {
         return this.realmResults.get(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        GridItemCollectionBinding binding;
+        GridItemReadingCollectionBinding binding;
 
-        ViewHolder(GridItemCollectionBinding binding) {
+        ViewHolder(GridItemReadingCollectionBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

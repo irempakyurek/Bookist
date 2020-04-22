@@ -25,6 +25,13 @@ public class GlobalApplication extends Application {
                 .build();
         Realm realm = Realm.getInstance(config);
         Realm.setDefaultConfiguration(config);
+
+        RealmConfiguration config2 = new RealmConfiguration.Builder()
+                .name("bookist2.realm")
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm realm2 = Realm.getInstance(config2);
+        Realm.setDefaultConfiguration(config2);
     }
 
 }
