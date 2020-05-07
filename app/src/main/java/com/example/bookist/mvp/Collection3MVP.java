@@ -25,7 +25,7 @@ public interface Collection3MVP {
     }
 
     interface AddView {
-        void addBookToCollection(View view);
+        void addBookToCollection2(View view);
     }
 
     interface GridView {

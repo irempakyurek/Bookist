@@ -83,7 +83,29 @@
                 android:id="@+id/btAddCollection"
                 android:layout_marginTop="@dimen/activity_buttom_bottom"
                 android:layout_gravity="bottom"
-                android:onClick="addBookToCollection" />
+                android:onClick="addBookToCollection"
+                android:visibility="gone"
+                android:background="#9C27B0"/>
+            <Button
+                android:text="@string/bottom_add_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btAddCollection2"
+                android:layout_marginTop="@dimen/activity_buttom_bottom"
+                android:layout_gravity="bottom"
+                android:onClick="addBookToCollection2"
+                android:visibility="gone"
+                android:background="#FFEB3B"/>
+            <Button
+                android:text="@string/bottom_add_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btAddCollection3"
+                android:layout_marginTop="@dimen/activity_buttom_bottom"
+                android:layout_gravity="bottom"
+                android:onClick="addBookToCollection3"
+                android:visibility="gone"
+                android:background="#4CAF50"/>
 
         </LinearLayout>
     </ScrollView>

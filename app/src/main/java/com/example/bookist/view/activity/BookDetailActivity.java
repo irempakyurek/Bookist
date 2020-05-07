@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ public class BookDetailActivity extends AppCompatActivity
     private static Collection3MVP.AddPresenter presenter3;
 
     private Book book;
-
+    Button btnAdd, btnAdd2, btnAdd3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,8 @@ public class BookDetailActivity extends AppCompatActivity
 
         if (!getIntent().getBooleanExtra(SEARCH_DETAIL, false)) {
             binding.btAddCollection.setVisibility(View.INVISIBLE);
+            binding.btAddCollection2.setVisibility(View.INVISIBLE);
+            binding.btAddCollection3.setVisibility(View.INVISIBLE);
         }
 
         Spinner spinner = findViewById(R.id.spinner);
@@ -55,80 +58,93 @@ public class BookDetailActivity extends AppCompatActivity
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(this);
+
+        btnAdd =  findViewById(R.id.btAddCollection);
+        btnAdd2 = findViewById(R.id.btAddCollection2);
+        btnAdd3 = findViewById(R.id.btAddCollection3);
     }
 
     @Override
     public void addBookToCollection(View view) {
+        btnAdd.setVisibility(View.VISIBLE);
+        if (presenter == null) {
+            presenter = new AddCollectionPresenter();
+        }
 
+        int status = presenter.saveBook(this.book);
+        switch (status) {
+            case CollectionMVP.Model.PERSIST_OK:
+                Toast.makeText(this, R.string.msg_success_adding_collection, Toast.LENGTH_SHORT).show();
+                break;
+            case CollectionMVP.Model.PERSIST_PROBLEM:
+                Toast.makeText(this, R.string.msg_error_adding_collection, Toast.LENGTH_SHORT).show();
+                break;
+            case CollectionMVP.Model.BOOK_EXISTS_NOT_EXISTS:
+                Toast.makeText(this, R.string.msg_book_already_in_collection, Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        presenter.closeRealm();
     }
+    @Override
+    public void addBookToCollection2(View view) {
+        if (presenter2 == null) {
+            presenter2 = new AddCollectionReadingPresenter();
+        }
 
+        int status2 = presenter2.saveBook(this.book);
+
+        switch (status2) {
+            case Collection2MVP.Model.PERSIST_OK:
+                Toast.makeText(this, R.string.msg_success_adding_collection, Toast.LENGTH_SHORT).show();
+                break;
+            case Collection2MVP.Model.PERSIST_PROBLEM:
+                Toast.makeText(this, R.string.msg_error_adding_collection, Toast.LENGTH_SHORT).show();
+                break;
+            case Collection2MVP.Model.BOOK_EXISTS_NOT_EXISTS:
+                Toast.makeText(this, R.string.msg_book_already_in_collection, Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        presenter2.closeRealm();
+    }
+    @Override
+    public void addBookToCollection3(View view) {
+        if (presenter3 == null) {
+            presenter3 = new AddCollectionWantToReadPresenter();
+        }
+
+        int status2 = presenter3.saveBook(this.book);
+
+        switch (status2) {
+            case Collection2MVP.Model.PERSIST_OK:
+                Toast.makeText(this, R.string.msg_success_adding_collection, Toast.LENGTH_SHORT).show();
+                break;
+            case Collection2MVP.Model.PERSIST_PROBLEM:
+                Toast.makeText(this, R.string.msg_error_adding_collection, Toast.LENGTH_SHORT).show();
+                break;
+            case Collection2MVP.Model.BOOK_EXISTS_NOT_EXISTS:
+                Toast.makeText(this, R.string.msg_book_already_in_collection, Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        presenter3.closeRealm();
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = "Okunmuş";
-        String text2 = "Şuanda okunan";
-        String text3 = "Okunmak istenen";
 
         if(position == 0){
-            if (presenter == null) {
-                presenter = new AddCollectionPresenter();
-            }
-
-            int status = presenter.saveBook(this.book);
-            switch (status) {
-                case CollectionMVP.Model.PERSIST_OK:
-                    Toast.makeText(this, R.string.msg_success_adding_collection, Toast.LENGTH_SHORT).show();
-                    break;
-                case CollectionMVP.Model.PERSIST_PROBLEM:
-                    Toast.makeText(this, R.string.msg_error_adding_collection, Toast.LENGTH_SHORT).show();
-                    break;
-                case CollectionMVP.Model.BOOK_EXISTS_NOT_EXISTS:
-                    Toast.makeText(this, R.string.msg_book_already_in_collection, Toast.LENGTH_SHORT).show();
-                    break;
-            }
-
-            presenter.closeRealm();
+            btnAdd2.setVisibility(View.GONE);
+            btnAdd3.setVisibility(View.GONE);
+            btnAdd.setVisibility(View.VISIBLE);
         }else if(position == 1){
-            if (presenter2 == null) {
-                presenter2 = new AddCollectionReadingPresenter();
-            }
-
-            int status2 = presenter2.saveBook(this.book);
-
-            switch (status2) {
-                case Collection2MVP.Model.PERSIST_OK:
-                    Toast.makeText(this, R.string.msg_success_adding_collection, Toast.LENGTH_SHORT).show();
-                    break;
-                case Collection2MVP.Model.PERSIST_PROBLEM:
-                    Toast.makeText(this, R.string.msg_error_adding_collection, Toast.LENGTH_SHORT).show();
-                    break;
-                case Collection2MVP.Model.BOOK_EXISTS_NOT_EXISTS:
-                    Toast.makeText(this, R.string.msg_book_already_in_collection, Toast.LENGTH_SHORT).show();
-                    break;
-            }
-
-            presenter2.closeRealm();
+            btnAdd.setVisibility(View.GONE);
+            btnAdd3.setVisibility(View.GONE);
+            btnAdd2.setVisibility(View.VISIBLE);
         }else if(position == 2) {
-            if (presenter3 == null) {
-                presenter3 = new AddCollectionWantToReadPresenter();
-            }
-
-            int status2 = presenter3.saveBook(this.book);
-
-            switch (status2) {
-                case Collection2MVP.Model.PERSIST_OK:
-                    Toast.makeText(this, R.string.msg_success_adding_collection, Toast.LENGTH_SHORT).show();
-                    break;
-                case Collection2MVP.Model.PERSIST_PROBLEM:
-                    Toast.makeText(this, R.string.msg_error_adding_collection, Toast.LENGTH_SHORT).show();
-                    break;
-                case Collection2MVP.Model.BOOK_EXISTS_NOT_EXISTS:
-                    Toast.makeText(this, R.string.msg_book_already_in_collection, Toast.LENGTH_SHORT).show();
-                    break;
-            }
-
-            presenter3.closeRealm();
-        }else{
-            Toast.makeText(parent.getContext(), text3, Toast.LENGTH_SHORT).show();
+            btnAdd.setVisibility(View.GONE);
+            btnAdd2.setVisibility(View.GONE);
+            btnAdd3.setVisibility(View.VISIBLE);
         }
     }
 
