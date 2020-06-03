@@ -12,9 +12,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.bookist.R;
 import com.example.bookist.model.pojo.Book;
@@ -38,7 +40,7 @@ import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener,
-        ClickListener, LongClickListener, LongClickListener2, LongClickListener3, NavigationView.OnNavigationItemSelectedListener{
+        ClickListener, LongClickListener, LongClickListener2, LongClickListener3, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public static final String SEARCH_ACTIVE = "searchActive";
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     private MyCollectionWantToReadFragment myCollectionWantToReadFragment;
     private DrawerLayout drawerLayout;
     public Fragment alreadyReadFragment, readingFragment, wantToReadFragment;
+    private Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,9 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        logout = findViewById(R.id.logoutBtn);
+        logout.setOnClickListener(this);
+
     }
 
     @Override
@@ -88,6 +94,7 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.fragment_list, myCollectionFragment, "myCollection")
                     .commit();
         }
+
     }
     private void showMyCollection2() {
         if (!getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
@@ -280,5 +287,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
+    //If logout button was clicked
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        MainActivity.this.finish();
+    }
 }
