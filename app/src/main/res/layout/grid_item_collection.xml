@@ -63,6 +63,18 @@
             android:maxLines="5"
             android:text="@{RealmUtil.realmListToString(book.authors)}"
             />
+        <Button
+            android:id="@+id/getQuiz"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_below="@id/tvAuthors"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:textColor="#FFFFFF"
+            android:text="Get Quiz"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 

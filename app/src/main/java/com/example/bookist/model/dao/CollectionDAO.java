@@ -9,6 +9,7 @@ import com.example.bookist.mvp.CollectionMVP;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import rx.Observable;
 
 public class CollectionDAO implements CollectionMVP.Model {
@@ -46,7 +47,7 @@ public class CollectionDAO implements CollectionMVP.Model {
     public Observable<RealmResults<RealmBook>> getCollection() {
         this.openRealm();
 
-        return  Observable.just(this.realm.where(RealmBook.class).findAll());
+        return  Observable.just(this.realm.where(RealmBook.class).findAll().sort("id", Sort.DESCENDING));
     }
 
     @Override

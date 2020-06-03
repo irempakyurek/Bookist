@@ -1,15 +1,22 @@
 package com.example.bookist.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.RelativeLayout;
 
 import com.example.bookist.R;
 import com.example.bookist.databinding.GridItemCollectionBinding;
+import com.example.bookist.model.Question;
 import com.example.bookist.model.pojo.Book;
 import com.example.bookist.model.realm.po.RealmBook;
 import com.example.bookist.model.realm.util.RealmUtil;
+import com.example.bookist.view.activity.QuestionsActivity;
 import com.example.bookist.view.listener.ClickListener;
 import com.example.bookist.view.listener.LongClickListener;
 
@@ -21,11 +28,12 @@ import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;
 import io.realm.RealmViewHolder;
 
-public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<CollectionRecyclerViewAdapter.ViewHolder> {
+public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<CollectionRecyclerViewAdapter.ViewHolder>{
 
     private RealmResults<RealmBook> realmResults;
     private LongClickListener longClickListener;
     private ClickListener clickListener;
+    public Button quiz;
 
     public CollectionRecyclerViewAdapter(RealmResults<RealmBook> realmResults,
                                          LongClickListener longClickListener,
@@ -64,6 +72,13 @@ public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<Collecti
                 clickListener.onBookClick(book, false);
             }
         });
+        quiz = holder.itemView.findViewById(R.id.getQuiz);
+        quiz.setOnClickListener(view -> {
+            int position = holder.getAdapterPosition();
+            Intent intent = new Intent(view.getContext(), QuestionsActivity.class);
+            intent.putExtra("book_id", position+1);
+            view.getContext().startActivity(intent);
+        });
 
         return holder;
     }
@@ -89,10 +104,11 @@ public class CollectionRecyclerViewAdapter extends RecyclerView.Adapter<Collecti
         return this.realmResults.get(position);
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         GridItemCollectionBinding binding;
-
         ViewHolder(GridItemCollectionBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

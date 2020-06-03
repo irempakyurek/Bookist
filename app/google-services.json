@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "999991557458",
-    "firebase_url": "https://bookist-3ceaa.firebaseio.com",
-    "project_id": "bookist-3ceaa",
-    "storage_bucket": "bookist-3ceaa.appspot.com"
+    "project_number": "705326534778",
+    "firebase_url": "https://mybookist-18a84.firebaseio.com",
+    "project_id": "mybookist-18a84",
+    "storage_bucket": "mybookist-18a84.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:999991557458:android:46a3f311281158afee4e8b",
+        "mobilesdk_app_id": "1:705326534778:android:a1a2e673a13d51ffe4ebc3",
         "android_client_info": {
           "package_name": "com.example.bookist"
         }
       },
       "oauth_client": [
         {
-          "client_id": "999991557458-mroj8spn34oro8ium7nu2t1qga3tenq0.apps.googleusercontent.com",
+          "client_id": "705326534778-nenj57t3s50u9ufu17mesquijvckbcms.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.bookist",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "999991557458-bg7jq65ujurkepsfrlnpusnk9kd0jqhr.apps.googleusercontent.com",
+          "client_id": "705326534778-iv3l6nf73u1vu5frkb6qjtmlnfbibkb6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAxDFZR4k7FVK6kgLKMzfD4wIHwlwM_fMk"
+          "current_key": "AIzaSyBhDC6u1Mocje6aHEANV7N6ZpJnCiUy0kc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "999991557458-bg7jq65ujurkepsfrlnpusnk9kd0jqhr.apps.googleusercontent.com",
+              "client_id": "705326534778-iv3l6nf73u1vu5frkb6qjtmlnfbibkb6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

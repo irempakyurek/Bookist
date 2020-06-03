@@ -50,7 +50,7 @@ public class MyCollectionFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        // setRetainInstance(true);
     }
 
     @Nullable
@@ -62,7 +62,7 @@ public class MyCollectionFragment extends Fragment
                 container,
                 false
         );
-        ((MainActivity) getActivity()).alreadyReadFragment = this;
+        //((MainActivity) getActivity()).alreadyReadFragment = this;
         return binding.getRoot();
     }
 
