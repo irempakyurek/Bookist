@@ -17,12 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.bookist.R;
 import com.example.bookist.model.pojo.Book;
+import com.example.bookist.model.pojo.MostReadBooks;
 import com.example.bookist.model.realm.po.RealmBook;
 import com.example.bookist.model.realm.po.RealmBook2;
 import com.example.bookist.model.realm.po.RealmBook3;
+import com.example.bookist.view.adapter.MainActivityRecyclerViewAdapter;
 import com.example.bookist.view.fragment.GoogleBooksListFragment;
 import com.example.bookist.view.fragment.MyCollectionFragment;
 import com.example.bookist.view.fragment.MyCollectionReadingFragment;
@@ -37,6 +40,11 @@ import org.parceler.Parcels;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener,
@@ -51,6 +59,10 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
     public Fragment alreadyReadFragment, readingFragment, wantToReadFragment;
     private Button logout;
+    private RecyclerView myrv;
+    private TextView tvmost;
+
+    List<MostReadBooks> lstBook ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +91,31 @@ public class MainActivity extends AppCompatActivity
         logout = findViewById(R.id.logoutBtn);
         logout.setOnClickListener(this);
 
+        lstBook = new ArrayList<>();
+        lstBook.add(new MostReadBooks("The Vegitarian","Categorie Book","Description book",R.drawable.thevigitarian));
+        lstBook.add(new MostReadBooks("The Wild Robot","Categorie Book","Description book",R.drawable.thewildrobot));
+        lstBook.add(new MostReadBooks("Maria Semples","Categorie Book","Description book",R.drawable.mariasemples));
+        lstBook.add(new MostReadBooks("The Martian","Categorie Book","Description book",R.drawable.themartian));
+        lstBook.add(new MostReadBooks("He Died with...","Categorie Book","Description book",R.drawable.hediedwith));
+        lstBook.add(new MostReadBooks("The Vegitarian","Categorie Book","Description book",R.drawable.thevigitarian));
+        lstBook.add(new MostReadBooks("The Wild Robot","Categorie Book","Description book",R.drawable.thewildrobot));
+        lstBook.add(new MostReadBooks("Maria Semples","Categorie Book","Description book",R.drawable.mariasemples));
+        lstBook.add(new MostReadBooks("The Martian","Categorie Book","Description book",R.drawable.themartian));
+        lstBook.add(new MostReadBooks("He Died with...","Categorie Book","Description book",R.drawable.hediedwith));
+        lstBook.add(new MostReadBooks("The Vegitarian","Categorie Book","Description book",R.drawable.thevigitarian));
+        lstBook.add(new MostReadBooks("The Wild Robot","Categorie Book","Description book",R.drawable.thewildrobot));
+        lstBook.add(new MostReadBooks("Maria Semples","Categorie Book","Description book",R.drawable.mariasemples));
+        lstBook.add(new MostReadBooks("The Martian","Categorie Book","Description book",R.drawable.themartian));
+        lstBook.add(new MostReadBooks("He Died with...","Categorie Book","Description book",R.drawable.hediedwith));
+
+        tvmost = findViewById(R.id.tvmost);
+
+        myrv = (RecyclerView) findViewById(R.id.most_read_rv);
+        MainActivityRecyclerViewAdapter myAdapter = new MainActivityRecyclerViewAdapter(this,lstBook);
+        myrv.setLayoutManager(new GridLayoutManager(this,3));
+        myrv.setAdapter(myAdapter);
+
+
     }
 
     @Override
@@ -88,6 +125,9 @@ public class MainActivity extends AppCompatActivity
     }
 
    private void showMyCollection() {
+        tvmost.setVisibility(View.GONE);
+        myrv.setVisibility(View.GONE);
+
         if (!getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -97,6 +137,9 @@ public class MainActivity extends AppCompatActivity
 
     }
     private void showMyCollection2() {
+        tvmost.setVisibility(View.GONE);
+        myrv.setVisibility(View.GONE);
+
         if (!getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -106,6 +149,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showMyCollection3() {
+        tvmost.setVisibility(View.GONE);
+        myrv.setVisibility(View.GONE);
+
         if (!getIntent().getBooleanExtra(SEARCH_ACTIVE, false)) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -121,6 +167,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        tvmost.setVisibility(View.GONE);
+        myrv.setVisibility(View.GONE);
         getIntent().putExtra(SEARCH_ACTIVE, true);
         GoogleBooksListFragment bookListFragment = GoogleBooksListFragment.getViewInstance();
 
@@ -238,6 +286,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -262,23 +311,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_alreadyRead:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_list, myCollectionFragment, "myCollection")
-                            .commit();
+                   showMyCollection();
                     break;
             case R.id.nav_reading:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_list, myCollectionReadingFragment, "myCollection2")
-                        .commit();
-
+                showMyCollection2();
                 break;
             case R.id.nav_wantToRead:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_list, myCollectionWantToReadFragment, "myCollection3")
-                        .commit();
+                showMyCollection3();
                 break;
 
         }

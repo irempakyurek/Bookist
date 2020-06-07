@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:openDrawer="start">
+         tools:openDrawer="start">
 
 
         <LinearLayout
@@ -32,7 +32,33 @@
                 android:id="@+id/fragment_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_margin="12dp">
+
+                <TextView
+                    android:id="@+id/tvmost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Most Reading Books"
+                    android:textAlignment="center"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="#FB8560"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:gravity="center_horizontal">
+                </TextView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/most_read_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="80dp"
+                    >
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </FrameLayout>
+
+
 
         </LinearLayout>
 
